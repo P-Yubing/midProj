@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="question">
+    
+	<resultMap type="vo.QuestionVO" id="questionMap">
+		<result column="QUE_ID" property="queId" />
+		<result column="QUE_CONTENT" property="queContent" />
+		<result column="QUE_DATE" property="queDate" />
+		<result column="CLASS_ID" property="classId" />
+		<result column="USER_ID" property="userId" />
+	</resultMap>
+
+	<insert id="insertQuestion" parameterType="vo.QuestionVO">
+		INSERT INTO QUESTION (QUE_ID, QUE_CONTENT, QUE_DATE, CLASS_ID, USER_ID)
+		VALUES (queId.nextval, #{queContent}, SYSDATE, #{classId}, #{userId})
+	</insert>
+
+	<select id="listQuestion" resultMap="questionMap"
+		parameterType="vo.NoticeVO">
+		SELECT QUE_ID, QUE_CONTENT, TO_CHAR(QUE_DATE, 'YYYY-MM-DD')
+		AS QUE_DATE, CLASS_ID, USER_ID
+		FROM QUESTION
+	</select>
+
+	<select id="getQuestionId" resultMap="questionMap"
+		parameterType="java.lang.String">
+		SELECT * FROM QUESTION WHERE QUE_ID = #{queId}
+		<!-- SELECT * FROM NOTICE WHERE NOTI_ID = 183 -->
+	</select>
+
+	
+	<delete id="deleteQuestion" parameterType="java.lang.String">
+		<!-- 값이 하나라서 string -->
+
+		DELETE FROM QUESTION WHERE QUE_ID = #{queId}
+
+	</delete>
+
+	<select id="queListByClassId" resultMap="questionMap"
+		parameterType="hashMap">
+		SELECT QUE_ID, QUE_CONTENT, TO_CHAR(QUE_DATE, 'YYYY-MM-DD') AS QUE_DATE, CLASS_ID, USER_ID
+		FROM QUESTION
+		where class_id = #{classId}
+	</select>
+
+</mapper>

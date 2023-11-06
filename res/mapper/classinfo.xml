@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="classinfo">
+	
+	<select id="getClass" resultType="vo.ClassInfoVO" parameterType="vo.ClassInfoVO">
+		select *
+		from classinfo
+		where class_id = #{cId}
+	</select>
+	
+	  <select id="getClassInfoById" resultType="vo.ClassInfoVO" parameterType="map">
+        SELECT * FROM CLASSINFO WHERE CLASS_ID = #{classId}
+<!--         SELECT * FROM NOTICE WHERE NOTI_ID = 183 -->
+    </select>
+	
+	<resultMap type="vo.ClassInfoVO" id="classInfoMap">
+		<result property="classId" column="CLASS_ID" />
+		<result property="classCurr" column="CLASS_CURR" />
+		<result property="classIntro" column="CLASS_INTRO" />
+		<result property="classHost" column="CLASS_HOST" />
+		<result property="classCategory" column="CLASS_CATEGORY" />
+		<result property="classPrice" column="CLASS_PRICE" />
+		<result property="classDay" column="CLASS_DAY" />
+		<result property="classCertificate" column="CLASS_CERTIFICATE" />
+		<result property="className" column="CLASS_NAME" />
+		<result property="classWishCount" column="CLASS_WISH_COUNT" />
+		<result property="hostPic" column="HOST_PIC" />
+		<result property="classAddr" column="CLASS_ADDR" />
+		<association property="classVO" resultMap="classPicMap" />
+	</resultMap>
+	
+	<resultMap type="vo.ClassPicVO" id="classPicMap">
+		<result property="classPicId" column="CLASS_PIC_ID" />
+		<result property="fileStreCours" column="FILE_STRE_COURS" />
+		<result property="classPicName" column="CLASS_PIC_NAME" />
+	</resultMap>
+	
+	<!-- index.jsp 인기 클래스  resultMap-->
+	<select id="favoClass" resultType="vo.ClassInfoVO">
+		SELECT A.CLASS_ID, A.CLASS_CURR, A.CLASS_INTRO, A.CLASS_HOST, A.CLASS_CATEGORY, A.CLASS_PRICE, A.CLASS_DAY, A.CLASS_CERTIFICATE, A.CLASS_NAME, A.CLASS_WISH_COUNT, A.HOST_PIC, A.CLASS_ADDR
+		         , B.CLASS_PIC_ID, B.FILE_STRE_COURS, B.CLASS_PIC_NAME
+		FROM   CLASSINFO A, CLASSPIC B
+		WHERE  A.CLASS_ID = B.CLASS_ID(+)
+		AND      A.CLASS_WISH_COUNT > 0
+		ORDER BY A.CLASS_WISH_COUNT DESC
+	</select>
+	
+</mapper>

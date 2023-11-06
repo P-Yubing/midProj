@@ -1,0 +1,255 @@
+@charset "UTF-8";
+
+
+
+.d71 {
+	max-width: 500px;
+    height: 300px;
+}
+div {
+    display: block;
+}
+    
+.d1 {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+   
+}
+
+.d2 {
+    width: 100%;
+    display: flex;
+    font-size: 20px;
+    align-self: center;
+    flex-direction: row;
+    margin: 20px;
+    margin-left: 20px;
+    align-items: baseline;
+}
+.d21 {
+	margin: 20px;
+    margin-left: 30px;
+    font-size: 30px;
+}
+.d21:hover {
+    color: orange !important;
+}
+.d22 {
+    font-size: 30px;
+}
+
+.d3 {
+  	flex: 1;
+    width: 100%;
+    display: flex;
+    align-self: center;
+    min-height: 700px;
+    align-items: stretch;
+    flex-direction: row;
+    justify-content: space-evenly;
+    
+}
+.d4 {
+    width: 100%;
+    display: flex;
+    max-width: 550px;
+    align-self: flex-start;
+    align-items: flex-start;
+    justify-self: center;
+    flex-direction: column;
+}
+.a411 {
+	 width: 100px;
+	 height: 100px;
+}
+.d5 {
+    width: 100%;
+    max-width: 550px;
+    margin-bottom: 30px;
+}
+.d6 {
+    width: calc(100%-40px);
+    border: 1px solid #CED4DA;
+    display: flex;
+    padding: 9px 20px 10px 20px;
+    background: #e1ede1;
+    align-items: flex-end;
+    border-radius: 5px 5px 0 0;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.d7 {
+    width: calc(100%-40px);
+    border: 1px solid #CED4DA;
+    display: flex;
+    padding: 30px;
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
+    flex-direction: column;
+}
+.d8 {
+  	padding: 30px;
+  	width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.d72 {
+  	color: #515B60;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: left;
+    font-weight: 700;
+    line-height: 20px;
+}
+.d73 {
+  	color: #515B60;
+    font-size: 20px;
+    margin-top: 5px;
+    line-height: 22px;
+    margin-left: 8px;
+  
+}
+.d74 {
+  	color: #515B60;
+    font-size: 18px;
+    margin-top: 5px;
+    text-align: left;
+    font-weight: 700;
+    line-height: 20px;
+}
+
+.d9 {
+    width: 100%;
+    display: flex;
+    max-width: 550px;
+    align-self: flex-start;
+    align-items: flex-start;
+    justify-self: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.d10 {
+    width: 100%;
+    max-width: 550px;
+    margin-bottom: 30px;
+}
+.d11 {
+    width: calc(100%-40px);
+    border: 1px solid #CED4DA;
+    display: flex;
+    padding: 9px 20px 10px 20px;
+    background: #e1ede1;
+    align-items: flex-end;
+    border-radius: 5px 5px 0 0;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.d12 {
+  	width: calc(100%-40px);
+    border: 1px solid #CED4DA;
+    display: flex;
+    padding: 30px;
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
+    flex-direction: column;
+}
+.d13 {
+  	padding: 30px;
+  	width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.d15 {
+    width: 100%;
+    display: flex;
+    max-width: 550px;
+    align-self: flex-start;
+    align-items: flex-start;
+    justify-self: center;
+    flex-direction: column;
+}
+
+
+.paybtn {
+	color: orange;
+	background-color: white;
+	border-radius: 4px;
+	border: 1px solid orange;
+	width: 100%;
+    padding: 10px;
+}
+.paybtn:hover {
+    background-color: orange;
+    color: white;
+}
+
+<!-- ------------------paymentselect--------------------- -->
+
+.a41 {
+    width: calc(100%-40px);
+   
+    display: flex;
+    padding: 30px;
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
+    flex-direction: column;
+}
+
+.a4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.a5 {
+    width: 100%;
+    max-width: 550px;
+    margin-bottom: 30px;
+}
+.a6 {
+    width: calc(100%-40px);
+    border: 1px solid #CED4DA;
+    display: flex;
+    padding: 9px 20px 10px 20px;
+    background: #e1ede1;
+    align-items: flex-end;
+    border-radius: 5px 5px 0 0;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.a7 {
+  	width: calc(100%-40px);
+    border: 1px solid #CED4DA;
+    display: flex;
+    padding: 30px;
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
+    flex-direction: column;
+}
+.a8 {
+  	padding: 20px;
+  	width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    color: #515B60;
+    font-weight: 700;
+}
+
+.a41 {
+  	margin: 30px;
+
+}
+
+.countbtn{
+	    flex-direction: column;
+	
+}
+
+
+

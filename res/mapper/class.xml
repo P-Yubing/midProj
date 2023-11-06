@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="class">
+
+<resultMap id="ClassInfoVOMap" type="vo.ClassInfoVO">
+  <id property="classId" column="CLASS_ID"/>
+  <result property="classCurr" column="CLASS_CURR"/>
+  <result property="classIntro" column="CLASS_INTRO"/>
+  <result property="classHost" column="CLASS_HOST"/>
+  <result property="classCategory" column="CLASS_CATEGORY"/>
+  <result property="classPrice" column="CLASS_PRICE"/>
+  <result property="classDay" column="CLASS_DAY"/>
+  <result property="classCertificate" column="CLASS_CERTIFICATE"/>
+  <result property="className" column="CLASS_NAME"/>
+  <result property="classWishCount" column="CLASS_WISH_COUNT"/>
+  <result property="hostPic" column="HOST_PIC"/>
+  <result property="classAddr" column="CLASS_ADDR"/>
+</resultMap>
+
+<!-- 
+//ClassInfoVO [classId=8, classCurr=드로잉을배우다가짜증나면수업드로잉하고도망가도됨, classIntro=드로잉드로잉던져버려수업을, classHost=지연지, classCategory=베이커리
+//, classPrice=77000, classDay=주중, classCertificate=null, className=지연드로잉, classWishCount=null, hostPic=/img/classHostPic/굉장한대.png
+//, classAddr=광주시 서구, classPicId=]
+ -->
+<insert id="createClassInfo" parameterType="vo.ClassInfoVO">
+    INSERT INTO CLASSINFO (ClASS_ID ,CLASS_CURR, CLASS_INTRO, CLASS_HOST, CLASS_CATEGORY, CLASS_PRICE, CLASS_DAY, CLASS_CERTIFICATE, CLASS_NAME, CLASS_WISH_COUNT, HOST_PIC, CLASS_ADDR)
+    VALUES (#{classId} ,#{classCurr}, #{classIntro}, #{classHost}, #{classCategory}, #{classPrice}, #{classDay}, #{classCertificate}, #{className}, '0', #{hostPic}, #{classAddr})
+  </insert>	 
+	
+
+  <select id="getClassTypeInfo" parameterType="vo.ClassInfoVO" resultMap="ClassInfoVOMap">
+  SELECT DISTINCT *
+  FROM ClassINFO A, CLASS B, USERS C
+  WHERE A.CLASS_ID = B.CLASS_ID
+    AND B.USER_ID = C.USER_ID
+    AND B.CLASS_STATUS = 'Y'
+    <if test="searchType != null and searchType != ''">
+      AND A.CLASS_CATEGORY = #{searchType}
+    </if>
+    <if test="searchAddr != null and searchAddr != ''">
+      AND A.CLASS_ADDR LIKE '%'||#{searchAddr}||'%'
+    </if>
+    <if test="searchKeyword != null and searchKeyword != ''">
+      AND (
+        A.CLASS_NAME LIKE '%'||#{searchKeyword}||'%'
+        OR A.CLASS_ID LIKE '%'||#{searchKeyword}||'%'
+        OR A.CLASS_HOST LIKE '%'||#{searchKeyword}||'%'
+      )
+    </if>
+</select>
+	<select id="getWishClass" parameterType="vo.ClassInfoVO" resultMap="ClassInfoVOMap">
+	  SELECT DISTINCT *
+	  FROM (
+	    SELECT *
+	    FROM ClassINFO
+	    ORDER BY CLASS_WISH_COUNT DESC
+	  )
+	</select>
+	
+	<select id="getRecentClass" parameterType="vo.ClassInfoVO" resultMap="ClassInfoVOMap">
+	SELECT DISTINCT *
+	FROM (
+		SELECT *
+		FROM CLASSINFO
+		ORDER BY TO_NUMBER(CLASS_ID) DESC
+	)
+	</select>
+	<select id="getCategoryClass" parameterType="java.lang.String" resultMap="ClassInfoVOMap">
+	SELECT DISTINCT *
+	FROM CLASSINFO
+	WHERE CLASS_CATEGORY = #{classCategory}
+	</select>
+	
+	<select id="getClassInfo" parameterType="vo.ClassInfoVO" resultMap="ClassInfoVOMap">
+	SELECT DISTINCT *
+	FROM CLASSINFO
+	</select>
+</mapper>

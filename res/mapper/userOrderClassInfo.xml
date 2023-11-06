@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userOrderClassInfo">
+
+	<resultMap type="vo.UserOrderClassInfoVO"
+		id="UserOrderClassInfoMap">
+		<result column="CLASS_ID" property="classId" />
+		<result column="CLASS_NAME" property="className" />
+		<result column="CLASS_HOST" property="classHost" />
+		<result column="USER_ID" property="userId" />
+		<result column="ORDERS_QTY" property="ordersQty" />
+		<result column="ORDERS_AMOUNT" property="ordersAmount" />
+		<result column="ORDERS_DATE" property="ordersDate" />
+	</resultMap>
+
+	<select id="getAlluserOrderClassInfoList"
+		resultMap="UserOrderClassInfoMap">
+
+		SELECT c.CLASS_ID, c.CLASS_NAME, c.CLASS_HOST, o.USER_ID, o.ORDERS_QTY,
+		o.ORDERS_AMOUNT, o.ORDERS_DATE
+		FROM CLASSINFO c
+		INNER JOIN ORDERS o ON
+		c.CLASS_ID = o.CLASS_ID
+		INNER JOIN USERS u ON o.USER_ID = u.USER_ID
+		ORDER by ORDERS_DATE DESC
+
+	</select>
+
+	<select id="getuserIdOrderClassInfoList"
+		resultMap="UserOrderClassInfoMap">
+		SELECT DISTINCT c.CLASS_NAME, c.CLASS_HOST, o.ORDERS_QTY,
+		o.ORDERS_AMOUNT, o.ORDERS_DATE
+		FROM CLASSINFO c
+		INNER JOIN ORDERS o ON
+		c.CLASS_ID = o.CLASS_ID
+		INNER JOIN USERS u ON o.USER_ID = u.USER_ID
+		where o.user_id = #{userId}
+		ORDER by ORDERS_DATE DESC
+	</select>
+
+
+	<resultMap type="vo.UserClassInfoVO" id="UserClassInfoMap">
+		<result column="USER_ID" property="userId" />
+		<result column="CLASS_ID" property="classId" />
+		<result column="CLASS_NAME" property="className" />
+		<result column="CLASS_CURR" property="classCurr" />
+		<result column="CLASS_INTRO" property="classIntro" />
+		<result column="CLASS_HOST" property="classHost" />
+		<result column="CLASS_CATEGORY" property="classCategory" />
+		<result column="CLASS_PRICE" property="classPrice" />
+		<result column="CLASS_DAY" property="classDay" />
+		<result column="CLASS_CERTIFICATE" property="classCertificate" />
+		<result column="CLASS_WISH_COUNT" property="classWishCount" />
+		<result column="CLASS_ADDR" property="classAddr" />
+		<result column="CLASS_STATUS" property="classStatus" />
+		<result column="REJECT_REASON" property="rejectReason" />
+	</resultMap>
+
+
+	<select id="getAllUserClassInfoList" resultMap="UserClassInfoMap">
+
+		select c.CLASS_ID, u.USER_ID, ci.CLASS_NAME, ci.CLASS_CURR, ci.CLASS_INTRO,
+		ci.CLASS_HOST, ci.CLASS_CATEGORY, ci.CLASS_PRICE, ci.CLASS_DAY,
+		ci.CLASS_CERTIFICATE, ci.CLASS_WISH_COUNT, ci.CLASS_ADDR,
+		c.CLASS_STATUS, c.REJECT_REASON
+		from class c
+		INNER JOIN users u on c.user_id = u.user_id
+		INNER JOIN classinfo ci on c.class_id = ci.class_id
+		ORDER by c.class_id asc
+
+	</select>
+
+	<select id="getUserIdClassInfoList" resultMap="UserClassInfoMap">
+		select c.CLASS_ID,
+		ci.CLASS_NAME, ci.CLASS_CURR, ci.CLASS_INTRO, ci.CLASS_HOST,
+		ci.CLASS_CATEGORY, ci.CLASS_PRICE, ci.CLASS_DAY,
+		ci.CLASS_CERTIFICATE, ci.CLASS_WISH_COUNT, ci.CLASS_ADDR, c.CLASS_STATUS, c.REJECT_REASON
+		from class c
+		INNER JOIN users u on c.user_id = u.user_id
+		INNER JOIN classinfo ci on c.class_id = ci.class_id
+		WHERE u.user_id = #{userId}
+		ORDER by c.class_id asc
+	</select>
+
+
+
+
+
+
+
+
+</mapper>

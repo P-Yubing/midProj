@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+
+<resultMap type="vo.PaymentVO" id="paymentMap">
+		<result column="payId" property="payId" />
+		<result column="payDate" property="payDate" />
+		<result column="payAmount" property="payAmount" />
+		<result column="ordersId" property="ordersId" />
+		<result column="payName" property="payName" />
+	</resultMap>
+	
+	<insert id="paymentamount" parameterType="vo.PaymentVO">
+		insert into payment
+		pay_amount
+		values #{payAmount}
+	</insert>
+	
+	<insert id="paymentInfo" parameterType="vo.PaymentVO">
+		<selectKey resultType="String" order="BEFORE" keyProperty="payId">
+			SELECT payment_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		insert into payment (PAY_ID, PAY_DATE, PAY_AMOUNT, ORDERS_ID, PAY_NAME)
+	  	values (#{payId}, to_date(SYSDATE, 'YYYY-MM-DD'), #{payAmount}, #{ordersId},#{payName} )
+	</insert>
+	
+	<insert id="settleInfo" parameterType="vo.SettleVO">
+		<selectKey resultType="String" order="BEFORE" keyProperty="settleId">
+			SELECT settle_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into settle (SETTLE_ID, CLASS_ID, PAY_ID, SETTLE_AMOUNT)
+	  	values (#{settleId}, #{classId}, #{payId},#{settleAmount}*0.9 )
+	</insert>
+	
+	
+	 
+</mapper>

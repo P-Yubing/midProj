@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+
+<resultMap type="vo.UserVO" id="userMap">
+		<result column="user_id" property="userId" />
+		<result column="user_pw" property="userPw" />
+		<result column="user_name" property="userName" />
+		<result column="user_n_name" property="userNName" />
+		<result column="user_tel" property="userTel" />
+		<result column="user_email" property="userEmail" />
+		<result column="user_birth" property="userBirth" />
+		<result column="user_type" property="userType" />
+	</resultMap>
+	
+	<select id="getAllUserList" resultMap="userMap">
+	
+		select * 
+		from users
+	
+	</select>
+	
+	
+	<select id="loginChk" resultMap="userMap" parameterType="map">
+		select * 
+		from users
+		where user_id = #{uId} and user_pw = #{uPw}
+	</select>
+
+	<select id="getUser" resultType="vo.UserVO" parameterType="string">
+		select user_id, user_name, user_n_name, user_tel, user_email
+		from users
+		where user_id = #{uId}
+	</select>
+	
+	<select id="userTypeChk" resultType="string" parameterType="string">
+		select user_type from users
+			where user_id = #{uId}
+	</select>
+
+	<update id="getUpdate"
+      parameterType="vo.UserVO">
+
+      UPDATE users
+      SET USER_NAME = #{userName}
+      ,USER_N_NAME = #{userNName}
+      ,USER_TEL = #{userTel}
+      ,USER_EMAIL = #{userEmail}
+      ,user_pw = #{userPw}
+      WHERE user_id = #{userId}
+
+   </update>
+   
+   	<update id="updateChangeE"
+      parameterType="vo.UserVO">
+
+      UPDATE users
+      SET USER_TYPE = 'E'
+      WHERE user_id = #{userId}
+      
+   </update>
+
+	<insert id="join" parameterType="vo.UserVO">
+		insert into users
+		(USER_ID, USER_PW, USER_NAME, USER_N_NAME, USER_TEL, USER_EMAIL, USER_BIRTH, USER_TYPE)
+		values (#{userId}, #{userPw}, #{userName}, #{userNName}, #{userTel}, #{userEmail}, #{userBirth}, #{userType})
+	</insert>
+
+	<select id="findId" resultType="string" parameterType="map">
+		select user_id 
+		from users
+		where user_name = #{userName} and user_tel = #{userTel}
+	</select>
+
+	<select id="findPw" resultType="string" parameterType="map">
+		select user_pw 
+		from users
+		where user_id = #{userId} and user_tel = #{userTel}
+	</select>
+	
+	
+
+</mapper>
+
+
+
+	

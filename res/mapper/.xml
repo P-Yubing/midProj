@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="class2">
+
+
+<resultMap id="ClassVOMap" type="vo.ClassVO">
+	<id property="classId" column="CLASS_ID"/>
+  	<result property="classStatus" column="CLASS_STATUS"/>
+  	<result property="userId" column="USER_ID"/>
+</resultMap>
+
+
+	<insert id="createClass" parameterType="vo.ClassVO" >
+		<selectKey keyProperty="classId" resultType="String" order="BEFORE">
+			SELECT NVL(MAX(TO_NUMBER(CLASS_ID)),0)+1 FROM CLASS
+		</selectKey>
+		INSERT INTO CLASS(CLASS_ID, CLASS_STATUS, USER_ID)
+		VALUES(#{classId},'N',#{userId})
+	</insert>
+	
+	
+	<update id="classConfirm" parameterType="String">
+		UPDATE class 
+		SET class_status = 'Y'
+		WHERE class_id = #{classId}
+	</update>
+	
+	
+<resultMap type="vo.ClassVO" id="classConfirmMap">
+	<result column="CLASS_ID" property="classId"/>
+	<result column="USER_ID" property="userId"/>
+	<result column="CLASS_CATEGORY" property="classCategory"/>
+	<result column="CLASS_NAME" property="className"/>
+</resultMap>
+	
+	<select id="classConfirmList" resultMap="classConfirmMap">
+		SELECT  B.CLASS_ID
+				, A.CLASS_CATEGORY
+				, A.CLASS_NAME
+				, B.USER_ID
+		FROM CLASSINFO A
+				, CLASS B
+		WHERE A.CLASS_ID = B.CLASS_ID 
+				AND B.CLASS_STATUS = 'N'
+		ORDER BY TO_NUMBER(CLASS_ID)
+	</select>
+	
+	
+	<update id="classReject" parameterType="map">
+		UPDATE class 
+		SET reject_reason = #{rejectReason}
+		WHERE class_id = #{classId}
+	</update>
+	
+	
+	<select id="getRejectReason" parameterType="String">
+		select reject_reason
+		from class
+		where class_id = #{classId}
+	</select>
+	
+	
+</mapper>

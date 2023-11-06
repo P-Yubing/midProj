@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="classpic">
+
+	<resultMap id="ClassPicVOMap" type="vo.ClassPicVO">
+	<id property="classPicId" column="CLASS_PIC_ID"/>
+	<result property="classId" column="CLASS_ID"/>
+	<result property="fileStreCours" column="FILE_STRE_COURS"/>
+	<result property="classPicName" column="CLASS_PIC_NAME"/>
+	</resultMap>
+
+
+
+	<select id="getClassPic" resultMap="ClassPicVOMap" parameterType="vo.ClassPicVO">
+ 		select file_stre_cours, c.class_Id
+ 		from classinfo C, classpic CP
+ 		where C.class_id = CP.class_id
+ 		and C.class_id = #{classPicId}
+ 	</select>
+ 	
+ 	<insert id="insertClasspic" parameterType="vo.ClassPicVO">
+		 <selectKey keyProperty="classPicId" resultType="String" order="BEFORE">
+		   SELECT CLASSPICID_SEQ.NEXTVAL AS classPicId FROM DUAL
+		 </selectKey>
+		 INSERT INTO CLASSPIC (CLASS_PIC_ID, CLASS_ID, FILE_STRE_COURS, CLASS_PIC_NAME)
+		 VALUES (#{classPicId}, #{classId}, #{fileStreCours}, #{classPicName})
+	</insert>
+
+
+ </mapper>

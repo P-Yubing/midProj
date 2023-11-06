@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="NoticeMapper">
+    
+    <resultMap type="vo.NoticeVO" id="noticeMap">
+        <result column="NOTI_ID" property="notiId" />
+        <result column="NOTI_TITLE" property="notiTitle" />
+        <result column="NOTI_CONTENT" property="notiContent"  />
+        <result column="NOTI_DATE" property="notiDate" />
+        <result column="USER_ID" property="userId" />
+    </resultMap>
+    
+    <insert id="insertNotice" parameterType="vo.NoticeVO">
+        INSERT INTO NOTICE (NOTI_ID, NOTI_TITLE, NOTI_CONTENT, NOTI_DATE, USER_ID)
+        VALUES (notiId.nextval, #{notiTitle}, #{notiContent, jdbcType=VARCHAR}, SYSDATE, #{userId})
+    </insert>
+    
+    <select id="listNotice" resultMap="noticeMap" parameterType="vo.NoticeVO">
+        SELECT NOTI_ID, NOTI_TITLE, NOTI_CONTENT, TO_CHAR(NOTI_DATE, 'YYYY-MM-DD') AS NOTI_DATE, USER_ID
+        FROM NOTICE
+    </select>
+    
+    <select id="getNoticeById" resultMap="noticeMap" parameterType="java.lang.String">
+        SELECT * FROM NOTICE WHERE NOTI_ID = #{notiId}
+<!--         SELECT * FROM NOTICE WHERE NOTI_ID = 183 -->
+    </select>
+    
+    <update id="updateNotice" parameterType="java.lang.String">
+        UPDATE NOTICE
+        SET NOTI_TITLE = #{notiTitle}
+        , NOTI_CONTENT =  #{notiContent}
+        WHERE NOTI_ID = #{notiId}
+    </update>
+    
+    <delete id="deleteNotice" parameterType="java.lang.String">
+		<!-- 값이 하나라서 string -->
+
+	 DELETE FROM NOTICE WHERE NOTI_ID = #{notiId}
+
+	</delete>
+	
+	
+</mapper>

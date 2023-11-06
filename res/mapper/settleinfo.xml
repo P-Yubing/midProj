@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="settle">
+
+	<resultMap type="vo.SettleVO" id="settleMap">
+		<result column="SETTLE_ID" property="settleId" />
+		<result column="CLASS_ID" property="classId" />
+		<result column="PAY_ID" property="payId" />
+		<result column="SETTLE_AMOUNT" property="settleAmount" />
+		<result column="CLASS_CATEGORY" property="classCategory" />
+		<result column="CLASS_NAME" property="className" />
+		<result column="PAY_AMOUNT" property="payAmount" />
+		<result column="USER_ID" property="userId" />
+		
+	</resultMap>
+	
+	<select id="getsettleList" resultMap="settleMap">
+		SELECT DISTINCT s.settle_id, c.class_id, p.pay_id, s.settle_amount, c.class_category, c.class_name, p.pay_amount
+		FROM settle s
+		INNER JOIN classinfo c ON
+		s.class_id = c.class_id
+		INNER JOIN payment p ON s.pay_id = p.pay_id
+		ORDER by s.settle_id DESC
+	</select>
+	
+	<select id="getsettleUserList" resultMap="settleMap" parameterType="hashMap">
+		SELECT DISTINCT s.settle_id, c.class_id, p.pay_id, s.settle_amount, 
+		c.class_category, c.class_name, p.pay_amount, a.user_id
+		FROM settle s
+		INNER JOIN classinfo c ON s.class_id = c.class_id
+		INNER JOIN payment p ON s.pay_id = p.pay_id
+		INNER JOIN class a ON a.class_id = c.class_id
+		WHERE a.user_id = #{userId}
+		ORDER by s.settle_id DESC
+	</select>
+	
+</mapper>	

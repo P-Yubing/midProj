@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="review">
+    
+    <resultMap type="vo.ReviewVO" id="reviewMap">
+        <result column="PAY_ID" property="payId" />
+        <result column="REVIEW_CONTENT" property="reviewContent" />
+        <result column="REVIEW_DATE" property="reviewDate" />
+        <result column="REVIEW_STAR" property="reviewStar" />
+    </resultMap>
+
+    <!-- 후기 작성 쿼리
+    payId : 61, reviewContent : sfad, reviewStar : 3
+     -->
+    <insert id="insertReview" parameterType="vo.ReviewVO">
+    	MERGE  INTO REVIEW A
+		USING DUAL
+		   ON (A.PAY_ID = #{payId})
+		 WHEN MATCHED THEN
+		      UPDATE
+		         SET A.REVIEW_CONTENT = #{reviewContent}, A.REVIEW_DATE = SYSDATE, A.REVIEW_STAR = #{reviewStar}
+		 WHEN NOT MATCHED THEN
+		      INSERT (A.PAY_ID, A.REVIEW_CONTENT, A.REVIEW_DATE, A.REVIEW_PIC, A.REVIEW_STAR)
+		      VALUES (#{payId},#{reviewContent},SYSDATE,'',#{reviewStar})
+    </insert>
+
+    <select id="listReview" resultMap="reviewMap" parameterType="vo.NoticeVO">
+        SELECT PAY_ID, REVIEW_CONTENT, TO_CHAR(REVIEW_DATE, 'YYYY-MM-DD') AS REVIEW_DATE, REVIEW_STAR
+        FROM REVIEW
+    </select>
+
+    <select id="getPayId" resultMap="reviewMap" parameterType="java.lang.String">
+        SELECT PAY_ID, REVIEW_CONTENT, TO_CHAR(REVIEW_DATE, 'YYYY-MM-DD') AS REVIEW_DATE, REVIEW_STAR
+        FROM REVIEW
+        WHERE PAY_ID = #{payId}
+    </select>
+
+    <delete id="deleteReview" parameterType="java.lang.String">
+        DELETE FROM REVIEW WHERE PAY_ID = #{payId}
+    </delete>
+    
+      <resultMap type="vo.UserIdReviewInfoVO" id="userReviewMap">
+        <id column="CLASS_NAME" property="className" />
+        <result column="ORDERS_DATE" property="orderDate" />
+        <result column="ORDERS_ID" property="orderId" />
+        <result column="PAY_DATE" property="payDate" />
+        <result column="PAY_ID" property="payId" />
+        <result column="USER_ID" property="userId" />
+    </resultMap> 
+    
+    <select id="getUserIdReviewInfoList"
+	resultMap="userReviewMap">
+
+	SELECT c.CLASS_NAME, o.ORDERS_DATE, o.ORDERS_ID, p.PAY_DATE, p.PAY_ID
+	FROM USERS u
+	INNER JOIN ORDERS o ON u.USER_ID = o.USER_ID
+	INNER JOIN PAYMENT p ON o.ORDERS_ID = p.ORDERS_ID
+	INNER JOIN CLASSINFO c ON o.CLASS_ID = c.CLASS_ID
+	WHERE u.USER_ID = #{userId}
+	ORDER by ORDERS_DATE DESC
+	
+	</select>
+	
+	
+	<select id="getReviewByClassId" resultMap="reviewMap">
+		SELECT R.*
+		FROM REVIEW R
+		JOIN PAYMENT P ON R.PAY_ID = P.PAY_ID
+		JOIN ORDERS O ON P.ORDERS_ID = O.ORDERS_ID
+		WHERE O.CLASS_ID = #{classId}
+	</select>
+
+</mapper>
